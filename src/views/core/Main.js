@@ -11,10 +11,9 @@ import {
   CTabPane,
 } from "@coreui/react";
 
-import TaskTable from "./task/table/table";
+import TaskMain from "./task/task-main-page";
 
 import { CIcon } from "@coreui/icons-react";
-import { get_task_services } from "../../services/core_services";
 
 const ListGroups = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -24,7 +23,7 @@ const ListGroups = () => {
     <>
       <CRow>
         <CCol>
-          <CCard>
+          <CCard accentColor="success">
             <CCardHeader>
               <b>Core App</b>
             </CCardHeader>
@@ -37,8 +36,7 @@ const ListGroups = () => {
                       action
                       active={activeTab === 0}
                     >
-                      <CIcon name="cil-list" size="lg" />{" "}
-                      <b>Laporan Penugasan Saya</b>
+                      <CIcon name="cil-list" size="lg" /> <b>That Task</b>
                     </CListGroupItem>
                     <CListGroupItem
                       onClick={() => setActiveTab(1)}
@@ -52,7 +50,7 @@ const ListGroups = () => {
                 <CCol xs="9">
                   <CTabContent>
                     <CTabPane active={activeTab === 0}>
-                      <TaskTable />
+                      <TaskMain />
                     </CTabPane>
                     <CTabPane active={activeTab === 1}>
                       <p>

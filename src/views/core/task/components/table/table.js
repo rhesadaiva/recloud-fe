@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  CCard,
-  CCardHeader,
-  CCardBody,
-  CDataTable,
-  CBadge,
-} from "@coreui/react";
+import { CDataTable, CBadge } from "@coreui/react";
 
-import { getTaskProcess } from "../../../../services/core_services";
+import { getTaskProcess } from "../../../../../services/core_services";
 
 const TaskTable = () => {
   const [taskData, setTaskData] = useState([]);
@@ -33,7 +27,7 @@ const TaskTable = () => {
       });
   };
 
-  console.log(taskData, "taskData");
+  // console.log(taskData, "taskData");
 
   useEffect(() => {
     handleGetTask();
@@ -64,33 +58,26 @@ const TaskTable = () => {
 
   return (
     <div>
-      <CCard>
-        <CCardHeader>
-          <b>My Task</b>
-        </CCardHeader>
-        <CCardBody>
-          <CDataTable
-            items={taskData}
-            columnHeaderSlot={column}
-            fields={fields}
-            itemsPerPage={5}
-            pagination
-            scopedSlots={{
-              nama_tugas: (item) => (
-                <td style={{ width: "400px" }}>{item.nama_tugas}</td>
-              ),
-              status: (item) => (
-                <td>
-                  <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
-                </td>
-              ),
-              durasi: (item, index) => {
-                return <td>{item.durasi}</td>;
-              },
-            }}
-          />
-        </CCardBody>
-      </CCard>
+      <CDataTable
+        items={taskData}
+        columnHeaderSlot={column}
+        fields={fields}
+        itemsPerPage={5}
+        pagination
+        scopedSlots={{
+          nama_tugas: (item) => (
+            <td style={{ width: "400px" }}>{item.nama_tugas}</td>
+          ),
+          status: (item) => (
+            <td>
+              <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
+            </td>
+          ),
+          durasi: (item, index) => {
+            return <td>{item.durasi}</td>;
+          },
+        }}
+      />
     </div>
   );
 };
