@@ -3,15 +3,19 @@ import React, { useEffect, useState } from "react";
 import { CCard, CCardHeader, CCardBody, CButton } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 
-import TaskTable from "./components/table/table";
-import TaskModals from "./components/modals_task";
+import TaskTable from "./components/table/task-table";
+import TaskModals from "./components/task-modals";
 
 const TaskMain = () => {
   const [modal, setModal] = useState(false);
+  const [modalType, setModalType] = useState();
 
-  const toggleModal = () => setModal(!modal);
+  const toggleModal = (type) => {
+    setModal(!modal);
+    setModalType(type);
+  };
 
-  // const
+  // useEffect(() => {}, []);
 
   return (
     <div>
@@ -25,7 +29,7 @@ const TaskMain = () => {
             shape="pill"
             color="primary"
             onClick={() => {
-              toggleModal();
+              toggleModal("insert");
             }}
           >
             <CIcon name="cil-lightbulb" />
@@ -33,11 +37,15 @@ const TaskMain = () => {
           </CButton>
         </CCardHeader>
         <CCardBody>
-          <TaskTable />
+          <TaskTable isToggle={(type) => toggleModal(type)} />
         </CCardBody>
       </CCard>
 
-      <TaskModals isModal={modal} isToggle={(modal) => setModal(modal)} />
+      <TaskModals
+        isModal={modal}
+        isToggle={(type) => toggleModal(type)}
+        formType={modalType}
+      />
     </div>
   );
 };
