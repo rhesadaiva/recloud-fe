@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { CCard, CCardHeader, CCardBody, CButton } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
@@ -10,12 +10,14 @@ const TaskMain = () => {
   const [modal, setModal] = useState(false);
   const [modalType, setModalType] = useState();
 
+  const [actionModal, setActionModal] = useState(false);
+
+  // const
+
   const toggleModal = (type) => {
     setModal(!modal);
     setModalType(type);
   };
-
-  // useEffect(() => {}, []);
 
   return (
     <div>
@@ -37,7 +39,10 @@ const TaskMain = () => {
           </CButton>
         </CCardHeader>
         <CCardBody>
-          <TaskTable isToggle={(type) => toggleModal(type)} />
+          <TaskTable
+            isToggle={(type) => toggleModal(type)}
+            hasAction={actionModal}
+          />
         </CCardBody>
       </CCard>
 
@@ -45,6 +50,7 @@ const TaskMain = () => {
         isModal={modal}
         isToggle={(type) => toggleModal(type)}
         formType={modalType}
+        actionType={(data) => setActionModal(data)}
       />
     </div>
   );

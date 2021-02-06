@@ -1,22 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { CFormGroup, CLabel, CInput, CCol } from "@coreui/react";
+import {
+  CFormGroup,
+  CLabel,
+  CInput,
+  CCol,
+  CTextarea,
+  CRow,
+} from "@coreui/react";
+
+import Helper from "../../../../../helpers/aio_helpers";
 
 const InsertTaskForm = (props) => {
   // ==================================== PROPS ====================================
   const { formType, returnData } = props;
 
   // ==================================== STATE ====================================
-  const [state, setState] = useState();
+
+  // const [diffTime, setDiffTime] = useState();
+
+  const initialState = {
+    nama_task: "",
+    uraian_task: "",
+    task_start: "",
+    task_end: "",
+    task_date: Helper.generateDateNow(),
+    // task_duration: "",
+    assignee_id: 1,
+    assignor_id: null,
+  };
+  const [state, setState] = useState(initialState);
+  const [showDuration, setShowDuration] = useState();
 
   // ==================================== FUNCTION ====================================
-  const handleNamaCompany = (e) => {
-    setState(e.target.value);
+
+  const handleEntryForm = (event) => {
+    const { name, value } = event.target;
+    setState({ ...state, [name]: value });
+
+    // let diff = Helper.countDifferenceTime(state.task_start, state.task_end);
+    // setShowDuration(diff);
+    // let newObj = Object.assign(state);
+    // newObj.task_duration = diff;
   };
 
+  const handleTimeDuration = () => {
+    let diff = Helper.countDifferenceTime(state.task_start, state.task_end);
+    setShowDuration(diff);
+    let newObj = Object.assign(state);
+    newObj.task_duration = diff;
+  };
   // ==================================== USE EFFECT ====================================
 
   useEffect(() => {
     returnData(state);
+    console.log(state, "state");
+    handleTimeDuration();
   }, [state]);
 
   // ==================================== RETURN ====================================
@@ -24,58 +62,65 @@ const InsertTaskForm = (props) => {
   return (
     <>
       <CFormGroup>
-        <CLabel htmlFor="company">Company</CLabel>
+        <CLabel htmlFor="date">Tanggal Tugas</CLabel>
+        <CInput
+          id="date"
+          type="date"
+          disabled
+          name="task_date"
+          value={state.task_date}
+        />
+      </CFormGroup>
+      <CFormGroup>
+        <CRow>
+          <CCol xs="6">
+            <CLabel htmlFor="street">Waktu Mulai</CLabel>
+            <CInput
+              type="time"
+              name="task_start"
+              disabled={formType === "detail" ? true : false}
+              onChange={handleEntryForm}
+            />
+          </CCol>
+          <CCol xs="6">
+            <CLabel htmlFor="street">Waktu Selesai</CLabel>
+            <CInput
+              type="time"
+              name="task_end"
+              disabled={formType === "detail" ? true : false}
+              onChange={handleEntryForm}
+            />
+          </CCol>
+        </CRow>
+      </CFormGroup>
+      <CFormGroup>
+        <CLabel htmlFor="company">Nama Tugas</CLabel>
         <CInput
           id="company"
           disabled={formType === "detail" ? true : false}
-          placeholder="Enter your company name"
-          onChange={handleNamaCompany}
+          name="nama_task"
+          value={state.nama_task}
+          onChange={handleEntryForm}
         />
       </CFormGroup>
       <CFormGroup>
-        <CLabel htmlFor="vat">VAT</CLabel>
-        <CInput
-          id="vat"
-          disabled={formType === "detail" ? true : false}
-          placeholder="DE1234567890"
+        <CLabel htmlFor="vat">Detil Tugas</CLabel>
+        <CTextarea
+          name="uraian_task"
+          id="textarea-input"
+          rows="2"
+          onChange={handleEntryForm}
         />
       </CFormGroup>
+
       <CFormGroup>
-        <CLabel htmlFor="street">Street</CLabel>
+        <CLabel htmlFor="duration">Durasi Tugas</CLabel>
         <CInput
-          id="street"
-          disabled={formType === "detail" ? true : false}
-          placeholder="Enter street name"
-        />
-      </CFormGroup>
-      <CFormGroup row className="my-0">
-        <CCol xs="8">
-          <CFormGroup>
-            <CLabel htmlFor="city">City</CLabel>
-            <CInput
-              id="city"
-              disabled={formType === "detail" ? true : false}
-              placeholder="Enter your city"
-            />
-          </CFormGroup>
-        </CCol>
-        <CCol xs="4">
-          <CFormGroup>
-            <CLabel htmlFor="postal-code">Postal Code</CLabel>
-            <CInput
-              id="postal-code"
-              disabled={formType === "detail" ? true : false}
-              placeholder="Postal Code"
-            />
-          </CFormGroup>
-        </CCol>
-      </CFormGroup>
-      <CFormGroup>
-        <CLabel htmlFor="country">Country</CLabel>
-        <CInput
-          id="country"
-          disabled={formType === "detail" ? true : false}
-          placeholder="Country name"
+          id="duration"
+          name="task_duration"
+          value={showDuration}
+          disabled
+          // onKeyup={handleEntryForm}
         />
       </CFormGroup>
     </>

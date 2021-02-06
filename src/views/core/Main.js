@@ -17,7 +17,7 @@ import { CIcon } from "@coreui/icons-react";
 
 const ListGroups = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>

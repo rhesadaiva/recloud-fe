@@ -10,7 +10,7 @@ import { getTaskProcess } from "../../../../../services/core_services";
 const TaskTable = (props) => {
   const [taskData, setTaskData] = useState([]);
 
-  const { isToggle } = props;
+  const { isToggle, hasAction } = props;
 
   const handleGetTask = async () => {
     await getTaskProcess()
@@ -34,7 +34,7 @@ const TaskTable = (props) => {
 
   useEffect(() => {
     handleGetTask();
-  }, []);
+  }, [hasAction]);
 
   const fields = ["no", "nama_tugas", "durasi", "status", "aksi"];
   const getBadge = (kd_status) => {
